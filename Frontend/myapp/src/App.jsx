@@ -6,9 +6,7 @@ import PublishControl from './pages/PublishControl.jsx'
 
 function App() {
   const [view, setView] = useState('home');
-  
-  // 1. You need this state to store the domain name from the Website page
-  const [projectData, setProjectData] = useState({ domain: 'yourdomain.com' });
+  const [projectData, setProjectData] = useState({ domain: 'shaslolav.agency' });
 
   return (
     <>
@@ -19,9 +17,8 @@ function App() {
       {view === 'create' && (
         <Website 
           onBack={() => setView('home')} 
-          // 2. Capture the domain when deployment finishes
           onDeploySuccess={(data) => {
-            setProjectData(data || { domain: 'myspace.zerospace.com' });
+            if(data) setProjectData(data);
             setView('editor');
           }} 
         />
@@ -30,8 +27,10 @@ function App() {
       {view === 'editor' && (
         <Editor 
           onExit={() => setView('home')} 
-          // 3. THIS WAS MISSING: You must pass onPublish here!
-          onPublish={() => setView('publish')} 
+          onPublish={() => {
+            console.log("NAVIGATING TO PUBLISH..."); // Check if this shows in Console
+            setView('publish');
+          }} 
         />
       )}
 
